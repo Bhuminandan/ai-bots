@@ -1,29 +1,6 @@
-Here’s a clean and customizable `README.md` template for your multi-project AI research repository:
-
----
-
-```markdown
 # 🧠 Multi-Agent AI Research Projects
 
-This repository is a monorepo containing multiple AI-powered projects focused on automation and decision-making using agent-based models. Each sub-project is designed to handle a specific domain such as job automation, real estate assistance, and more.
-
----
-
-## 📁 Project Structure
-```
-
-.
-├── ai_data_analyst/ # Agent that performs data analysis tasks
-├── ai_job_mailer/ # Agent that sends job applications via email
-├── ai_real_estate_agent/ # Agent that assists with real estate listings
-├── multiagent_research/ # Core logic for multi-agent orchestration
-├── pdf_chatbot/ # Chatbot that interacts with PDF documents
-├── src/ # Shared utilities and base components
-├── share/ # (Ignored) Shared large files, datasets, etc.
-├── .gitignore # Git ignore rules
-└── README.md # You're here!
-
-````
+This repository is a monorepo containing multiple AI-powered projects focused on automation and decision-making using agent-based models. Each sub-project targets a specific domain such as job automation, real estate assistance, and more.
 
 ---
 
@@ -32,9 +9,9 @@ This repository is a monorepo containing multiple AI-powered projects focused on
 ### 1. Clone the repo
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/YOUR_REPO.git
-cd YOUR_REPO
-````
+git clone https://github.com/Bhuminandan/ai-bots
+cd ai-bots
+```
 
 ### 2. Create a virtual environment
 
@@ -92,7 +69,7 @@ HUGGINGFACE_API_KEY=your_huggingface_key
 
 ## 🤝 Contributing
 
-Pull requests are welcome! Please make sure to:
+Pull requests are welcome! Please:
 
 - Follow project structure
 - Update relevant `README.md` sections
@@ -110,9 +87,6 @@ This project is licensed under the MIT License. See `LICENSE` for details.
 
 Maintained by [Bhumi](mailto:bhumi@assertion.cloud). Connect on [GitHub](https://github.com/YOUR_USERNAME).
 
-```
-
 ---
 
 Let me know if you'd like the README to include **badges**, **demo images**, or instructions for **Docker/Streamlit/FastAPI** if any project uses it.
-```
