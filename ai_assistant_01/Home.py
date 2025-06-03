@@ -3,6 +3,11 @@ from utils.helpers import Helpers
 helpers = Helpers()
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
+from langchain_groq import ChatGroq
+from dotenv import load_dotenv
+load_dotenv()
+import os
+from utils.constants import *
 
 
 
@@ -52,32 +57,56 @@ if not st.session_state.chat_started:
 else:
     st.title(f"Chat with Assistant — {st.session_state.name}")
 
-    # Show chat history (chat-style UI)
+    # Display previous messages
     for message in st.session_state.chat_history:
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
 
-    # Input at bottom
+    # User input
     user_message = st.chat_input("Type your message...")
 
     if user_message:
-        # Save user message
+        # Save user's message
         st.session_state.chat_history.append({
             "role": "user",
             "content": user_message
         })
 
-        # Bot response (mock)
-        response = f"Hello {st.session_state.name}, you said: {user_message}"
-        st.session_state.chat_history.append({
-            "role": "assistant",
-            "content": response
-        })
+        # Step 1: Get relevant context/documents
+        relevant_docs = helpers.get_assistant_response(user_message, st.session_state.vector_store)
+
+        # Step 2: Format a prompt with context and user query
+        if isinstance(relevant_docs, list):
+            context = "\n\n".join(relevant_docs)
+        else:
+            context = relevant_docs or ""
+
+        full_prompt = f"""You are a helpful assistant. Use the following context to answer the question.
+                    Context:
+                    {context}
+                    Question:
+                    {user_message}
+        """
+
+        # Step 3: Call the LLM
+        llm = ChatGroq(
+            model=MODEL,
+            groq_api_key=os.getenv("GROQ_API_KEY"),
+            temperature=0,
+            max_tokens=None,
+            timeout=None,
+            max_retries=2,
+        )
+
+        response = llm.invoke(full_prompt)
+        assistant_message = response.content
+
+        
+        # Step 4: Save assistant's response
+        if response:
+            st.session_state.chat_history.append({
+                "role": "assistant",
+                "content": assistant_message
+            })
 
         st.rerun()
-
-    # # Reset option
-    # if st.button("🔁 Reset Chat"):
-    #     for key in ["chat_started", "chat_history", "name", "email"]:
-    #         st.session_state.pop(key, None)
-    #     st.rerun()
